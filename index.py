@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.cluster import KMeans
+import numpy as np
 
 # Data awal
 data = {
@@ -9,8 +10,17 @@ data = {
 
 df = pd.DataFrame(data)
 
-# Inisialisasi KMeans dengan K=2
-kmeans = KMeans(n_clusters=2, random_state=0)
+# Generate angka acak untuk indeks centroid
+random_indices = np.random.choice(df.index, size=2, replace=False)
+
+# Tentukan centroid awal
+centroids = df.iloc[random_indices].values
+
+print("Centroid awal:")
+print(centroids)
+
+# Inisialisasi KMeans dengan K=2 dan centroid awal
+kmeans = KMeans(n_clusters=2, init=centroids, n_init=1)
 
 # Fit model ke data
 kmeans.fit(df)
